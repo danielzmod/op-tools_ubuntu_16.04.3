@@ -74,6 +74,7 @@ rm -rf zeromq-4.2.3 zeromq-4.2.3.tar.gz
 
 # 3. clone and create virtualenv for openpilot
 cd # Clone into home directory root
+rm -rf ~/openpilot
 git clone https://github.com/commaai/openpilot
 pushd openpilot
 git checkout $TAG # Checkout version specified in TAG
@@ -90,6 +91,8 @@ pipenv install # Install dependencies in the virtualenv
 #popd
 
 # 5. capnproto
+# Silently remove any previous installations of capnproto
+rm -rf -f /tmp/c-capnproto/
 # install with the supplied script instead
 sudo cereal/install_capnp.sh
 popd
@@ -99,8 +102,7 @@ echo 'export PYTHONPATH='$OPPATH >> ~/.bashrc
 source ~/.bashrc
 
 # 7. Add folders to root
-sudo mkdir -v /data
-sudo mkdir -v /data/params
+sudo mkdir -p -v /data/params
 sudo chown -v $USER /data/params
 
 # 8. Install/and compile packages nescessary for openpilot tools.
